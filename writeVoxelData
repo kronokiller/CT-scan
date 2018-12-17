@@ -1,0 +1,33 @@
+import os
+
+os.chdir('/home/kronos/sublime/projects/Python files/CTscan')
+
+voxelData = open('frog.txt')
+file = open('cutFrog.txt', 'wb')
+
+radius = 40
+
+newBytes = []
+data = []
+
+for i in range(200):
+    for j in range(200):
+        for k in range(200):
+
+            if newBytes == []:
+                line = voxelData.readline()
+                line = line.split(':')[1]
+                for m in range(16):
+                    newBytes.append(int(line[1] + line[2], 16))
+                    line = line[3:]
+
+            for m in range(3):
+                data.append(newBytes.pop(0))
+
+            a = newBytes.pop(0)
+            if ((100 - i) ** 2 + (100 - j) ** 2 + (100 - k) ** 2) ** (1 / 2) > radius:
+                data.append(int('bb', 16))
+            else:
+                data.append(a)
+
+file.write(bytearray(bytes(data)))
